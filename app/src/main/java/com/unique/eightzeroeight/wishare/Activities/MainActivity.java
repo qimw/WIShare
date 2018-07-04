@@ -1,8 +1,13 @@
 package com.unique.eightzeroeight.wishare.Activities;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,8 +18,16 @@ import com.unique.eightzeroeight.wishare.Fragments.LANTransferFragment;
 import com.unique.eightzeroeight.wishare.Fragments.ReceivedFileFragment;
 import com.unique.eightzeroeight.wishare.Fragments.WebTransferFragment;
 import com.unique.eightzeroeight.wishare.R;
+import com.unique.eightzeroeight.wishare.network.base.BaseUserData;
+import com.unique.eightzeroeight.wishare.network.base.DeviceData;
+import com.unique.eightzeroeight.wishare.network.base.RequestSearchData;
+import com.unique.eightzeroeight.wishare.network.client.ClientConfig;
+import com.unique.eightzeroeight.wishare.network.client.SearchClient;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
@@ -28,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
     private WebTransferFragment webTransfer;
     private ViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
+
+
+    private CopyOnWriteArrayList<DeviceData> mDeviceList = new CopyOnWriteArrayList<>();
+    private Handler mHandler;
+    private SearchClient searchClient;
+    private static final int MESSAGE_SEARCH_START = 1;
+    private static final int MESSAGE_SEARCH_FINISH = 2;
+    private static final int MESSAGE_SEARCH_DEV = 3;
+    private static final int SHOW_SEARCH_REQUEST = 4;
+    private static final int START_BE_SEARCH = 5;
+    private static final int END_BE_SEARCH = 6;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         lanTransfer = new LANTransferFragment();
         fileReceived = new ReceivedFileFragment();
         webTransfer = new WebTransferFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", mDeviceList);
+        lanTransfer.setArguments(bundle);
 
         fragments.add(lanTransfer);
         fragments.add(fileChoose);
@@ -98,8 +126,103 @@ public class MainActivity extends AppCompatActivity {
                 //重复选中时触发
             }
         });
+
+        init();
     }
 
+    private class MyHandler extends Handler {
+        private WeakReference<MainActivity> ref;
 
+        MyHandler(MainActivity activity) {
+            ref = new WeakReference<>(activity);
+        }
 
+        @Override
+        public void handleMessage(Message msg) {
+            MainActivity activity = ref.get();
+            switch (msg.what) {
+                case MESSAGE_SEARCH_START:
+                    mDeviceList.clear();
+                    Toast.makeText(MainActivity.this, "开始搜索", Toast.LENGTH_SHORT).show();
+                    break;
+                case MESSAGE_SEARCH_FINISH:
+                    Toast.makeText(MainActivity.this, "结束搜索", Toast.LENGTH_SHORT).show();
+                    break;
+                case MESSAGE_SEARCH_DEV:
+                    lanTransfer.requestNotifyData();
+                    break;
+                case SHOW_SEARCH_REQUEST:
+                    for (RequestSearchData d : lanTransfer.getRequests()) {
+                        String show = d.toString();
+                        Log.d("MainActivity", "handleMessage: " + d);
+                    }
+                    break;
+                case START_BE_SEARCH:
+                    Toast.makeText(MainActivity.this, "开启被发现功能，请稍等", Toast.LENGTH_SHORT).show();
+                    break;
+                case END_BE_SEARCH:
+                    Toast.makeText(MainActivity.this, "关闭被发现功能", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+
+    private void init() {
+
+        mHandler = new MyHandler(this);
+
+        ClientConfig.setAskFunc(1);
+        searchClient = new SearchClient(1024) {
+            @Override
+            public void onSearchStart() {
+                mHandler.sendEmptyMessage(MESSAGE_SEARCH_START);
+            }
+
+            @Override
+            public void onSearchDev(BaseUserData dev) {
+                if (!mDeviceList.contains(dev)) {
+                    mDeviceList.add((DeviceData) dev);
+                }
+                mHandler.sendEmptyMessage(MESSAGE_SEARCH_DEV);
+            }
+
+            @Override
+            protected void onSearchFinish() {
+                mHandler.sendEmptyMessage(MESSAGE_SEARCH_FINISH);
+            }
+
+            @Override
+            public void printLog(String msg) {
+                Log.i("LANDiscover", "client " + msg);
+            }
+        };
+
+        if (searchClient.isOpen()) {
+            Toast.makeText(this, "已经开启搜索，请稍等", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+    public List<DeviceData> getList() {
+        return mDeviceList;
+    }
+
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchClient.startSearch();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (searchClient != null) {
+            searchClient.close();
+        }
+        mDeviceList.clear();
+    }
 }

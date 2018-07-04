@@ -1,9 +1,5 @@
 package com.unique.eightzeroeight.wishare.network.client;
 
-/**
- * Created by amyli on 2017/2/15.
- */
-
 public class ClientConfig {
     private static int askFunc;
 

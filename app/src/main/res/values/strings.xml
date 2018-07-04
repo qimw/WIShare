@@ -49,6 +49,7 @@
     <string name="str_device_name">设备名称</string>
     <string name="str_mac">MAC地址</string>
     <string name="str_transfer_progress">传输过程</string>
+    <string name="str_file_name">文件名</string>
     <string name="str_cancel">取消</string>
     <string name="title_file_sender">文件发送</string>
     <string name="str_has_selected_detail">已选（%d）</string>

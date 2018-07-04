@@ -27,13 +27,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
-/**
- * Apk列表Fragment
- *
- * Created by mayubao on 2016/11/24.
- * Contact me 345269374@qq.com
- */
 public class FileInfoFragment extends Fragment {
 
     @Bind(R.id.gv)

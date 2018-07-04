@@ -97,7 +97,7 @@ public abstract class SearchServer {
         byte[] buf = new byte[mUserDataMaxLen];
         DatagramPacket recePack = new DatagramPacket(buf, buf.length);
 
-        if (sock == null || sock.isClosed() || recePack == null) {
+        if (sock == null || sock.isClosed()) {
             return;
         }
 
@@ -108,7 +108,9 @@ public abstract class SearchServer {
                 sock.receive(recePack);
                 printLog("server after receive");
                 // verify the data
-                if (verifySearchReq(recePack)) {
+                boolean result = verifySearchReq(recePack);
+                printLog("result " + result);
+                if (result) {
                     byte[] userData = DeviceData.packDeviceData(ServerConfig.getDeviceData());
                     if (userData == null) {
                         return;
@@ -147,6 +149,7 @@ public abstract class SearchServer {
      */
     private boolean verifySearchReq(DatagramPacket pack) {
         if (pack.getLength() < 6) {
+            printLog("length less than 6");
             return false;
         }
 
@@ -161,6 +164,7 @@ public abstract class SearchServer {
 
         int sendSeq = Utils.bytesToInt(data, offset);
         if (sendSeq < 0) {
+            printLog("seq < 0");
             return false;
         }
 
@@ -186,6 +190,8 @@ public abstract class SearchServer {
         if (requestSearchData.getAskFunc() == ServerConfig.getFunc()) {
             return true;
         }
+
+        printLog("mmmmmm");
         return false;
     }
 
