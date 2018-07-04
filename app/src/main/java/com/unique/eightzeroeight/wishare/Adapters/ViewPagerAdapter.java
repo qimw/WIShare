@@ -1,19 +1,19 @@
 package com.unique.eightzeroeight.wishare.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ViewGroup;
+
+import com.unique.eightzeroeight.wishare.Fragments.FileChooseFragment;
+import com.unique.eightzeroeight.wishare.Fragments.WebTransferFragment;
 
 import java.util.List;
 
-/**
- * Created by viseator on 2016/12/20.
- * Wudi
- * viseator@gmail.com
- */
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -33,6 +33,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        if (changeFragment&&(object instanceof WebTransferFragment || object instanceof FileChooseFragment)) {
+            return -2;
+        } else {
+            return super.getItemPosition(object);
+        }
+
     }
 
     @Override
@@ -57,6 +67,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             ft.attach(fragment);
             ft.commit();
             changeFragment = false;
+            Log.i("ViewPagerAdapter", "hello");
         }
         return fragment;
     }

@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:7.0.1'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
-
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation 'com.dou361.dialogui:jjdxm-dialogui:latest.release'
 
 }

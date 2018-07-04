@@ -71,17 +71,7 @@ public class FileChooseFragment extends Fragment {
      */
     public static final int  REQUEST_CODE_GET_FILE_INFOS = 200;
 
-    /**
-     * Topbar相关UI
-     */
-    @Bind(R.id.tv_back)
-    TextView tv_back;
-    @Bind(R.id.iv_search)
-    ImageView iv_search;
-    @Bind(R.id.search_view)
-    SearchView search_view;
-    @Bind(R.id.tv_title)
-    TextView tv_title;
+
 
     /**
      * BottomBar相关UI
@@ -148,12 +138,6 @@ public class FileChooseFragment extends Fragment {
      * 初始化
      */
     private void init(){
-        tv_title.setText(getResources().getString(R.string.title_choose_file));
-        tv_title.setVisibility(View.VISIBLE);
-
-        iv_search.setVisibility(View.INVISIBLE);
-
-        search_view.setVisibility(View.GONE);
 
         //Android6.0 requires android.permission.READ_EXTERNAL_STORAGE
         //TODO
@@ -203,7 +187,7 @@ public class FileChooseFragment extends Fragment {
         mCurrentFragment = mApkInfoFragment;
 
         String[] titles = getResources().getStringArray(R.array.array_res);
-        view_pager.setAdapter(new ResPagerAdapter(getActivity().getSupportFragmentManager(), titles));
+        view_pager.setAdapter(new ResPagerAdapter(this.getChildFragmentManager(), titles));
         view_pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -267,7 +251,7 @@ public class FileChooseFragment extends Fragment {
         getSelectedView();
     }
 
-    @OnClick({R.id.btn_selected, R.id.btn_next, R.id.iv_search})
+    @OnClick({R.id.btn_selected, R.id.btn_next})
     public void onClick(View view){
         switch (view.getId()){
 
@@ -280,9 +264,7 @@ public class FileChooseFragment extends Fragment {
                 break;
             }
             case R.id.btn_next:{
-//                btn_selected.setEnabled(false);
-//                btn_selected.setBackgroundResource(R.drawable.shape_bottom_text_unenable);
-//                btn_selected.setTextColor(getResources().getColor(R.color.darker_gray));
+
                 if(!AppContext.getAppContext().isFileInfoMapExist()){//不存在选中的文件
                     ToastUtils.show(getContext(), getContext().getString(R.string.tip_please_select_your_file));
                     return;
@@ -293,14 +275,7 @@ public class FileChooseFragment extends Fragment {
                     return;
                 }
                 //跳转到应用间传输
-                //NavigatorUtils.toChooseReceiverUI(getContext());
-                break;
-            }
-
-            case R.id.iv_search:{
-                btn_selected.setEnabled(true);
-                btn_selected.setBackgroundResource(R.drawable.selector_bottom_text_common);
-                btn_selected.setTextColor(getResources().getColor(R.color.colorPrimary));
+                listener.onChangeFragment();
                 break;
             }
         }
