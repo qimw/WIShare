@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 共有的Adapter
- *
+ * <p>
  * Created by mayubao on 2016/4/18.
  * Contact me 345269374@qq.com
  */
@@ -18,7 +18,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     Context mContext;
     List<T> mDataList;
 
-    public CommonAdapter(Context context, List<T> dataList){
+    public CommonAdapter(Context context, List<T> dataList) {
         this.mContext = context;
         this.mDataList = dataList;
     }
@@ -33,9 +33,10 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
     /**
      * 添加数据源
+     *
      * @param mDataList
      */
-    public void addDataList(List<T> mDataList){
+    public void addDataList(List<T> mDataList) {
         this.mDataList.addAll(mDataList);
         notifyDataSetChanged();
     }
@@ -43,7 +44,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     /**
      * 清除数据
      */
-    public void clear(){
+    public void clear() {
         this.mDataList.clear();
     }
 
