@@ -2,12 +2,12 @@ package com.unique.eightzeroeight.wishare.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
@@ -20,17 +20,12 @@ import android.widget.TextView;
 
 import com.unique.eightzeroeight.wishare.Activities.AppContext;
 import com.unique.eightzeroeight.wishare.Entities.FileInfo;
-import com.unique.eightzeroeight.wishare.Entities.WifiInfo;
 import com.unique.eightzeroeight.wishare.FragmentChangeListener;
 import com.unique.eightzeroeight.wishare.R;
-import com.unique.eightzeroeight.wishare.Utils.ApMgr;
 import com.unique.eightzeroeight.wishare.Utils.ClassifyUtils;
 import com.unique.eightzeroeight.wishare.Utils.Constant;
 import com.unique.eightzeroeight.wishare.Utils.FileUtils;
-import com.unique.eightzeroeight.wishare.Utils.NetUtils;
 import com.unique.eightzeroeight.wishare.Utils.TextUtils;
-import com.unique.eightzeroeight.wishare.Utils.WifiAPBroadcastReceiver;
-import com.unique.eightzeroeight.wishare.Utils.WifiMgr;
 import com.unique.eightzeroeight.wishare.micro_server.AndroidMicroServer;
 import com.unique.eightzeroeight.wishare.micro_server.DownloadResUriHandler;
 import com.unique.eightzeroeight.wishare.micro_server.IOStreamUtils;
@@ -46,6 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class WebTransferFragment extends Fragment {
 
     private FragmentChangeListener listener;
@@ -59,19 +55,19 @@ public class WebTransferFragment extends Fragment {
     TextView tv_tip_1;
     @Bind(R.id.tv_tip_2)
     TextView tv_tip_2;
-    @Bind(R.id.wifi_qrcode)
+    @Bind(R.id.url_qrcode)
     ImageView code;
-    WifiAPBroadcastReceiver mWifiAPBroadcastReceiver;
+//    WifiAPBroadcastReceiver mWifiAPBroadcastReceiver;
 
-    public static String hotspotIpAddr;
+    public static String wifiAddr;
 
     /**
      * android 网页传服务器
      */
     AndroidMicroServer mAndroidMicroServer = null;
 
-    private boolean mIsInitialized = false;
-    private WifiInfo info;
+//    private boolean mIsInitialized = false;
+//    private WifiInfo info;
     public WebTransferFragment() {
         // Required empty public constructor
     }
@@ -105,8 +101,19 @@ public class WebTransferFragment extends Fragment {
     }
 
 
+    @OnClick(R.id.re_choose)
+    public void onReChooseClick() {
+        //关闭server
+        closeServer();
+
+        //清除所选中的文件
+        AppContext.getAppContext().getFileInfoMap().clear();
+        listener.onChangeFragment();
+
+    }
 
     public void setFragmentChangeListener(FragmentChangeListener listener) {
+
         this.listener = listener;
     }
 
@@ -114,57 +121,13 @@ public class WebTransferFragment extends Fragment {
      * 初始化
      */
     private void init() {
-
-        //1.初始化热点
-//        WifiMgr.getInstance(getContext()).disableWifi();
-//        if (ApMgr.isApOn(getContext())) {
-//            ApMgr.disableAp(getContext());
-//        }
-
-        mWifiAPBroadcastReceiver = new WifiAPBroadcastReceiver() {
-            @Override
-            public void onWifiApEnabled() {
-                Log.i(TAG, "======>>>onWifiApEnabled !!!");
-                if (!mIsInitialized) {
-//                    mUdpServerRuannable = createSendMsgToFileSenderRunnable();
-//                    AppContext.MAIN_EXECUTOR.execute(mUdpServerRuannable);
-                    try {
-                        Log.i(TAG, "======>>>before server open");
-                        AppContext.MAIN_EXECUTOR.execute(createServer());
-                        mIsInitialized = true;
-                        Log.i(TAG, "======>>>after server open");
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        mIsInitialized = false;
-                    }
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter(WifiAPBroadcastReceiver.ACTION_WIFI_AP_STATE_CHANGED);
-        getActivity().registerReceiver(mWifiAPBroadcastReceiver, filter);
-
-//        ApMgr.isApOn(getContext()); // check Ap state :boolean
-//        ApMgr.openAp(getActivity(), new ApMgr.OpenApCallback() {
-//            @Override
-//            public void callBack(WifiInfo info) {
-//                WebTransferFragment.this.info = info;
-//                Log.i(TAG, info.toString());
-//                Log.i(TAG, "wifi start init");
-//                initUI();
-//            }
-//        }); // change Ap state :boolean
-        info = new WifiInfo(null, null);
         initUI();
+
         try {
             AppContext.MAIN_EXECUTOR.execute(createServer());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-//        tv_tip_1.setText(getResources().getString(R.string.tip_web_transfer_first_tip).replace("{hotspot}", ssid));
     }
 
     /**
@@ -176,47 +139,34 @@ public class WebTransferFragment extends Fragment {
         String normalColor = "#ff000000";
         String highlightColor = "#1467CD";
 //        <font color=\'#ff0000\'>【题】</font>
-        String ssid = TextUtils.isNullOrBlank(android.os.Build.DEVICE) ? Constant.DEFAULT_SSID : android.os.Build.DEVICE;
-        String tip1 = getContext().getResources().getString(R.string.tip_web_transfer_first_tip).replace("{hotspot}",
-                "SSID:" + info.getSsid() + "<br>PWD:" + info.getPwd());
+        String tip1 = AppContext.getAppContext().getResources().getString(R.string.tip_web_transfer_first_tip);
         String[] tip1StringArray = tip1.split("\\n");
         Spanned tip1Spanned = Html.fromHtml("<font color='" + normalColor + "'>" + tip1StringArray[0].trim() + "</font><br>"
-                + "<font color='" + normalColor + "'>" + tip1StringArray[1].trim() + "</font><br>"
-                + "<font color='" + highlightColor + "'>" + tip1StringArray[2].trim() + "</font><br>"
-                + "<font color='" + normalColor + "'>" + tip1StringArray[3].trim() + "</font><br>");
+                + "<font color='" + normalColor + "'>" + tip1StringArray[1].trim() + "</font><br>");
         tv_tip_1.setText(tip1Spanned);
-        //设置二维码
-        Bitmap img = CodeUtils.createImage(info.getSsid() + " " + info.getPwd(), 280, 280, null);
-        code.setImageBitmap(img);
 
-        String tip2 = getContext().getResources().getString(R.string.tip_web_transfer_second_tip);
+        String tip2 = AppContext.getAppContext().getResources().getString(R.string.tip_web_transfer_second_tip);
         String[] tip2StringArray = tip2.split("\\n");
+        String addr = "http://" + wifiAddr + ":4766";
+        Log.i(TAG, addr);
         Spanned tip2Spanned = Html.fromHtml("<font color='" + normalColor + "'>" + tip2StringArray[0].trim() + "</font><br>"
                 + "<font color='" + normalColor + "'>" + tip2StringArray[1].trim() + "</font><br>"
-                + "<font color='" + highlightColor + "'>" + tip2StringArray[2].trim() + "</font><br>"
+                + "<font color='" + highlightColor + "'>" + addr.trim() + "</font><br>"
                 + "<font color='" + normalColor + "'>" + tip2StringArray[3].trim() + "</font><br>");
         tv_tip_2.setText(tip2Spanned);
+
+        Bitmap img = CodeUtils.createImage("http://" + wifiAddr + ":4766", 200, 200, null);
+        code.setImageBitmap(img);
     }
 
 
 
-    public void onBackPressed() {
-
-        if (mWifiAPBroadcastReceiver != null) {
-            getActivity().unregisterReceiver(mWifiAPBroadcastReceiver);
-            mWifiAPBroadcastReceiver = null;
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            initUI();
         }
-
-        closeServer();
-
-        //关闭热点
-        ApMgr.disableAp(getContext());
-
-        //清楚所选中的文件
-        AppContext.getAppContext().getFileInfoMap().clear();
-
-    }
-
+    };
     /**
      * 创建一个AndroidMicroServer
      *
@@ -228,30 +178,16 @@ public class WebTransferFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    // 确保热点开启之后获取得到IP地址
-                    //String hotspotIpAddr = WifiMgr.getInstance(getContext()).getHotspotLocalIpAddress();
                     int address = ((WifiManager) AppContext.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getDhcpInfo().ipAddress;
 
-                    hotspotIpAddr = ((address & 0xFF)
+                    wifiAddr = ((address & 0xFF)
                             + "." + ((address >> 8) & 0xFF)
                             + "." + ((address >> 16) & 0xFF)
                             + "." + ((address >> 24) & 0xFF));
-                    int count = 0;
-//                    while (hotspotIpAddr.equals(Constant.DEFAULT_UNKOWN_IP) && count < Constant.DEFAULT_TRY_TIME) {
-//                        Thread.sleep(1000);
-//                        hotspotIpAddr = WifiMgr.getInstance(getContext()).getIpAddressFromHotspot();
-//                        Log.i(TAG, "receiver serverIp ----->>>" + hotspotIpAddr);
-//                        count++;
-//                    }
+                    //initUI();
+                    handler.sendEmptyMessage(0);
 
-                    // 即使热点wifi的IP地址也是无法连接网络 所以采取此策略
-                    count = 0;
-                    while (!NetUtils.pingIpAddress(hotspotIpAddr) && count < Constant.DEFAULT_TRY_TIME) {
-                        Thread.sleep(500);
-                        Log.i(TAG, "try to ping ----->>>" + hotspotIpAddr + " - " + count);
-                        count++;
-                    }
-                    Log.i(TAG, hotspotIpAddr);
+                    Log.i(TAG, wifiAddr);
                 } catch (Exception e) {
                     //maybe not get the hotspot ip
                 }
@@ -279,9 +215,9 @@ public class WebTransferFragment extends Fragment {
 
     static class MyIndexResUriHandler extends IndexResUriHandler {
 
-        public static final String DOWNLOAD_PREFIX = "http://" + hotspotIpAddr +":4766/download/";
-        public static final String IMAGE_PREFIX = "http://" + hotspotIpAddr + ":4766/image/";
-        public static final String DEFAULT_IMAGE_PATH = "http://" + hotspotIpAddr + ":4766/image/logo.png";
+        public static final String DOWNLOAD_PREFIX = "http://" + wifiAddr +":4766/download/";
+        public static final String IMAGE_PREFIX = "http://" + wifiAddr + ":4766/image/";
+        public static final String DEFAULT_IMAGE_PATH = "http://" + wifiAddr + ":4766/image/logo.png";
 
         Activity sActivity;
         Map<String, FileInfo> sFileInfoMap = null;

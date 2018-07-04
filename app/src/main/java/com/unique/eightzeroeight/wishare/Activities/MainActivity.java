@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         NavigationController navigationController = tab.material()
-                .addItem(android.R.drawable.ic_menu_camera, "相机")
-                .addItem(android.R.drawable.ic_menu_compass, "位置")
-                .addItem(android.R.drawable.ic_menu_search, "搜索")
+                .addItem(R.drawable.phone, "手机传")
+                .addItem(R.drawable.laptop, "网页传")
+                .addItem(R.drawable.file, "已接收")
                 .build();
         navigationController.setupWithViewPager(viewPager);
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {

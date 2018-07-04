@@ -43,6 +43,7 @@
     <string name="tip_has_no_apk_info">暂时找不到应用的信息</string>
     <string name="str_has_selected">已选（0）</string>
     <string name="str_next">下一步</string>
+    <string name="re_choose_file">重新选择文件</string>
     <string name="tip_please_click_user_avatar_to_receive">点击接收者头像连接</string>
     <string name="tip_waiting_file_sender_connect">正在等待发送者连接...</string>
     <string name="str_device_name">设备名称</string>
@@ -107,15 +108,14 @@
     <string name="str_weiguan">围观</string>
     <string name="tip_web_transfer_first_tip">
         第1步 \n
-        请好友连入我的热点 \n
-        \"{hotspot}\ \n
-        或着扫描左侧二维码"
+        与好友连入相同的Wifi \n
+
     </string>
     <string name="tip_web_transfer_second_tip">
         第2步 \n
         请好友在浏览器输入以下网址 \n
         http://192.168.43.1:3999 \n
-        或者扫描右侧二维码
+        或者扫描下面二维码
     </string>
     <string name="str_restart_hotspot">重启热点</string>
     <string name="title_web_transfer">网页传</string>
