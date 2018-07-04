@@ -151,4 +151,17 @@ public class DeviceData extends BaseUserData {
         return "DeviceData={ip=" + ip + ",port=" + port + ",devId=" + devId + ",serviceName=" +
                 serviceName + ",pkgName=" + pkgName + ",func=" + func + "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        return o instanceof DeviceData
+                && ((DeviceData) o).getIp().equals(this.getIp())
+                && ((DeviceData) o).getPort() == this.getPort()
+                && ((DeviceData) o).getPkgName().equals(this.pkgName);
+
+    }
 }
