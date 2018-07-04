@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import com.unique.eightzeroeight.wishare.Activities.AppContext;
 import com.unique.eightzeroeight.wishare.Adapters.FileInfoAdapter;
 import com.unique.eightzeroeight.wishare.Entities.FileInfo;
+import com.unique.eightzeroeight.wishare.FragmentChangeListener;
 import com.unique.eightzeroeight.wishare.R;
 import com.unique.eightzeroeight.wishare.Utils.AnimationUtils;
 import com.unique.eightzeroeight.wishare.Utils.FileUtils;
@@ -117,10 +118,11 @@ public class FileInfoFragment extends Fragment {
                     Fragment parentFragment = getParentFragment();
                     if(parentFragment != null && (parentFragment instanceof FileChooseFragment)){
                         FileChooseFragment fragment = (FileChooseFragment) parentFragment;
-                        fragment.getSelectedView();
+                        targetView = fragment.getSelectedView();
                     }
-
-                    AnimationUtils.setAddTaskAnimation(getParentFragment(), startView, targetView, null);
+                    Log.i("hello", (parentFragment != null) + "parent fragment");
+                    Log.i("hello", (parentFragment instanceof FileChooseFragment) + "parent fragment");
+                    AnimationUtils.setAddTaskAnimation(getActivity(), startView, targetView, null);
                 }
 
                 mFileInfoAdapter.notifyDataSetChanged();

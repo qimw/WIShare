@@ -25,9 +25,9 @@ public class AnimationUtils {
      * @param activity
      * @return
      */
-    public static ViewGroup createAnimLayout(Fragment activity) {
-        ViewGroup rootView = (ViewGroup) activity.getParentFragment().getActivity().getWindow().getDecorView();
-        LinearLayout animLayout = new LinearLayout(activity.getContext());
+    public static ViewGroup createAnimLayout(Activity activity) {
+        ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
+        LinearLayout animLayout = new LinearLayout(activity);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -45,10 +45,10 @@ public class AnimationUtils {
      * @param startView     起始view
      * @param targetView    目标view
      */
-    public static void setAddTaskAnimation(Fragment activity, View startView, View targetView, final AddTaskAnimationListener listener){
+    public static void setAddTaskAnimation(Activity activity, View startView, View targetView, final AddTaskAnimationListener listener){
         //1.创建遮罩动画层
         ViewGroup animMaskLayout = createAnimLayout(activity);
-        final ImageView imageView = new ImageView(activity.getContext());
+        final ImageView imageView = new ImageView(activity);
         animMaskLayout.addView(imageView);
 
         //2.创建Animation

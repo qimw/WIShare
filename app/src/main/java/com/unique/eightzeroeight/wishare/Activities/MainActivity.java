@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.unique.eightzeroeight.wishare.Adapters.ViewPagerAdapter;
 import com.unique.eightzeroeight.wishare.FragmentChangeListener;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         fragments = new ArrayList<>();
@@ -41,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         lanTransfer = new LANTransferFragment();
         fileReceived = new ReceivedFileFragment();
         webTransfer = new WebTransferFragment();
-
-
 
         fragments.add(lanTransfer);
         fragments.add(fileChoose);
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 viewPagerAdapter.setChangeFragment(true);
                 fragments.set(1, webTransfer);
                 viewPagerAdapter.notifyDataSetChanged();
+                Log.i("MainActivity", "change to web transfer");
             }
         });
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 viewPagerAdapter.setChangeFragment(true);
                 fragments.set(1, fileChoose);
                 viewPagerAdapter.notifyDataSetChanged();
+                Log.i("MainActivity", "change to file select");
             }
         });
 
@@ -75,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         NavigationController navigationController = tab.material()
-                .addItem(android.R.drawable.ic_menu_camera, "相机")
-                .addItem(android.R.drawable.ic_menu_compass, "位置")
-                .addItem(android.R.drawable.ic_menu_search, "搜索")
+                .addItem(R.drawable.phone, "手机传")
+                .addItem(R.drawable.laptop, "网页传")
+                .addItem(R.drawable.file, "已接收")
                 .build();
         navigationController.setupWithViewPager(viewPager);
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
