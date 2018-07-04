@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.unique.eightzeroeight.wishare.Adapters.ViewPagerAdapter;
+import com.unique.eightzeroeight.wishare.FragmentChangeListener;
+import com.unique.eightzeroeight.wishare.Fragments.FileChooseFragment;
 import com.unique.eightzeroeight.wishare.Fragments.LANTransferFragment;
 import com.unique.eightzeroeight.wishare.Fragments.ReceivedFileFragment;
 import com.unique.eightzeroeight.wishare.Fragments.WebTransferFragment;
@@ -19,13 +21,15 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragments;
-    private Fragment webTransfer;
-    private Fragment lanTransfer;
-    private Fragment fileFrag;
+    private FileChooseFragment fileChoose;
+    private LANTransferFragment lanTransfer;
+    private ReceivedFileFragment fileReceived;
+    private WebTransferFragment webTransfer;
     private ViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -33,16 +37,39 @@ public class MainActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
 
         //init fragments
-        webTransfer = new WebTransferFragment();
+        fileChoose = FileChooseFragment.newInstance(FileChooseFragment.WEB_TRANSFER);
         lanTransfer = new LANTransferFragment();
-        fileFrag = new ReceivedFileFragment();
+        fileReceived = new ReceivedFileFragment();
+        webTransfer = new WebTransferFragment();
 
-        fragments.add(webTransfer);
+
+
         fragments.add(lanTransfer);
-        fragments.add(fileFrag);
+        fragments.add(fileChoose);
+        fragments.add(fileReceived);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this, fragments);
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+
+        //选择文件与网页传输的切换监听
+        fileChoose.setFragmentChangeListener(new FragmentChangeListener() {
+            @Override
+            public void onChangeFragment() {
+                viewPagerAdapter.setChangeFragment(true);
+                fragments.set(1, webTransfer);
+                viewPagerAdapter.notifyDataSetChanged();
+            }
+        });
+
+        webTransfer.setFragmentChangeListener(new FragmentChangeListener() {
+            @Override
+            public void onChangeFragment() {
+                viewPagerAdapter.setChangeFragment(true);
+                fragments.set(1, fileChoose);
+                viewPagerAdapter.notifyDataSetChanged();
+            }
+        });
 
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.tab);
 
@@ -68,4 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
