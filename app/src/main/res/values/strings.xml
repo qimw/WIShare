@@ -5,6 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">Settings</string>
 
+    <string name="no_received_file">未收到文件</string>
     <string name="str_send">我要发送</string>
     <string name="str_receive">我要接收</string>
     <string name="str_start">开启</string>
