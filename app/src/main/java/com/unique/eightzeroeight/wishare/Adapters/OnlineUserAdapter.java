@@ -15,10 +15,13 @@ import com.unique.eightzeroeight.wishare.network.base.DeviceData;
 import java.util.List;
 import java.util.Set;
 
+
 public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Holder> {
 
     private List<DeviceData> list;
     private static final String TAG = "OnlineUserAdapter";
+    private OnItemClickListener mItemClickListener;
+
 
     public OnlineUserAdapter(List<DeviceData> list) {
         this.list = list;
@@ -26,16 +29,24 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
 
     @NonNull
     @Override
-        public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
-        return new Holder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick((Integer) v.getTag());
+                }
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.fileName.setText(list.get(position).getPkgName());
         holder.userName.setText(list.get(position).getIp());
-        Log.d(TAG, "onBindViewHolder: " + list.size());
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -56,4 +67,13 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
             fileName = itemView.findViewById(R.id.tv_filename);
         }
     }
+
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
 }

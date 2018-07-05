@@ -5,16 +5,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.unique.eightzeroeight.wishare.Activities.AppContext;
 import com.unique.eightzeroeight.wishare.Entities.FileInfo;
 import com.unique.eightzeroeight.wishare.R;
 
 import java.util.List;
-import com.bumptech.glide.Glide;
 
 /**
  * ApkInfo Adapter
- *
+ * <p>
  * Created by mayubao on 2016/11/24.
  * Contact me 345269374@qq.com
  */
@@ -38,9 +38,9 @@ public class FileInfoAdapter extends CommonAdapter<FileInfo> {
     public View convertView(int position, View convertView) {
         FileInfo fileInfo = getDataList().get(position);
 
-        if(mType == FileInfo.TYPE_APK){ //APK convertView
+        if (mType == FileInfo.TYPE_APK) { //APK convertView
             ApkViewHolder viewHolder = null;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = View.inflate(getContext(), R.layout.item_apk, null);
                 viewHolder = new ApkViewHolder();
                 viewHolder.iv_shortcut = (ImageView) convertView.findViewById(R.id.iv_shortcut);
@@ -48,83 +48,80 @@ public class FileInfoAdapter extends CommonAdapter<FileInfo> {
                 viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                 viewHolder.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
                 convertView.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (ApkViewHolder) convertView.getTag();
             }
 
-            if(getDataList() != null && getDataList().get(position) != null){
+            if (getDataList() != null && getDataList().get(position) != null) {
 
                 viewHolder.iv_shortcut.setImageBitmap(fileInfo.getBitmap());
                 viewHolder.tv_name.setText(fileInfo.getName() == null ? "" : fileInfo.getName());
                 viewHolder.tv_size.setText(fileInfo.getSizeDesc() == null ? "" : fileInfo.getSizeDesc());
 
                 //全局变量是否存在FileInfo
-                if(AppContext.getAppContext().isExist(fileInfo)){
+                if (AppContext.getAppContext().isExist(fileInfo)) {
                     viewHolder.iv_ok_tick.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.iv_ok_tick.setVisibility(View.GONE);
                 }
             }
-        }
-        else if(mType == FileInfo.TYPE_JPG){ //JPG convertView
+        } else if (mType == FileInfo.TYPE_JPG) { //JPG convertView
             JpgViewHolder viewHolder = null;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = View.inflate(getContext(), R.layout.item_jpg, null);
                 viewHolder = new JpgViewHolder();
                 viewHolder.iv_ok_tick = (ImageView) convertView.findViewById(R.id.iv_ok_tick);
                 viewHolder.iv_shortcut = (ImageView) convertView.findViewById(R.id.iv_shortcut);
                 convertView.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (JpgViewHolder) convertView.getTag();
             }
 
-            if(getDataList() != null && getDataList().get(position) != null){
+            if (getDataList() != null && getDataList().get(position) != null) {
 
 //                viewHolder.iv_shortcut.setImageBitmap(fileInfo.getBitmap());
                 Glide
-                    .with(getContext())
-                    .load(fileInfo.getFilePath())
-                    .centerCrop()
-                    .placeholder(R.mipmap.icon_jpg)
-                    .crossFade()
-                    .into(viewHolder.iv_shortcut);
+                        .with(getContext())
+                        .load(fileInfo.getFilePath())
+                        .centerCrop()
+                        .placeholder(R.mipmap.icon_jpg)
+                        .crossFade()
+                        .into(viewHolder.iv_shortcut);
 
                 //全局变量是否存在FileInfo
-                if(AppContext.getAppContext().isExist(fileInfo)){
+                if (AppContext.getAppContext().isExist(fileInfo)) {
                     viewHolder.iv_ok_tick.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.iv_ok_tick.setVisibility(View.GONE);
                 }
             }
-        }
-        else if(mType == FileInfo.TYPE_MP3){ //MP3 convertView
+        } else if (mType == FileInfo.TYPE_MP3) { //MP3 convertView
             Mp3ViewHolder viewHolder = null;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = View.inflate(getContext(), R.layout.item_mp3, null);
                 viewHolder = new Mp3ViewHolder();
                 viewHolder.iv_ok_tick = (ImageView) convertView.findViewById(R.id.iv_ok_tick);
                 viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                 viewHolder.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
                 convertView.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (Mp3ViewHolder) convertView.getTag();
             }
 
-            if(getDataList() != null && getDataList().get(position) != null){
+            if (getDataList() != null && getDataList().get(position) != null) {
                 viewHolder.tv_name.setText(fileInfo.getName() == null ? "" : fileInfo.getName());
                 viewHolder.tv_size.setText(fileInfo.getSizeDesc() == null ? "" : fileInfo.getSizeDesc());
 
                 //全局变量是否存在FileInfo
-                if(AppContext.getAppContext().isExist(fileInfo)){
+                if (AppContext.getAppContext().isExist(fileInfo)) {
                     viewHolder.iv_ok_tick.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.iv_ok_tick.setVisibility(View.GONE);
                 }
             }
-        }
-        else if(mType == FileInfo.TYPE_MP4){ //MP4 convertView
+        } else if (mType == FileInfo.TYPE_MP4) { //MP4 convertView
             Mp4ViewHolder viewHolder = null;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = View.inflate(getContext(), R.layout.item_mp4, null);
                 viewHolder = new Mp4ViewHolder();
                 viewHolder.iv_shortcut = (ImageView) convertView.findViewById(R.id.iv_shortcut);
@@ -132,19 +129,19 @@ public class FileInfoAdapter extends CommonAdapter<FileInfo> {
                 viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                 viewHolder.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
                 convertView.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (Mp4ViewHolder) convertView.getTag();
             }
 
-            if(getDataList() != null && getDataList().get(position) != null){
+            if (getDataList() != null && getDataList().get(position) != null) {
                 viewHolder.iv_shortcut.setImageBitmap(fileInfo.getBitmap());
                 viewHolder.tv_name.setText(fileInfo.getName() == null ? "" : fileInfo.getName());
                 viewHolder.tv_size.setText(fileInfo.getSizeDesc() == null ? "" : fileInfo.getSizeDesc());
 
                 //全局变量是否存在FileInfo
-                if(AppContext.getAppContext().isExist(fileInfo)){
+                if (AppContext.getAppContext().isExist(fileInfo)) {
                     viewHolder.iv_ok_tick.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.iv_ok_tick.setVisibility(View.GONE);
                 }
             }

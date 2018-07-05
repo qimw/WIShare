@@ -12,11 +12,11 @@ import java.util.List;
 
 /**
  * 文件实体
- *
+ * <p>
  * Created by mayubao on 2016/11/7.
  * Contact me 345269374@qq.com
  */
-public class FileInfo implements Serializable{
+public class FileInfo implements Serializable {
 
     /**
      * 常见文件拓展名
@@ -94,7 +94,7 @@ public class FileInfo implements Serializable{
     private int result;
 
 
-    public FileInfo(){
+    public FileInfo() {
 
     }
 
@@ -175,7 +175,7 @@ public class FileInfo implements Serializable{
         this.result = result;
     }
 
-    public static String toJsonStr(FileInfo fileInfo){
+    public static String toJsonStr(FileInfo fileInfo) {
         String jsonStr = "";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -188,10 +188,10 @@ public class FileInfo implements Serializable{
         return jsonObject.toString();
     }
 
-    public static FileInfo toObject(String jsonStr){
+    public static FileInfo toObject(String jsonStr) {
         FileInfo fileInfo = new FileInfo();
         try {
-            JSONObject jsonObject =  new JSONObject(jsonStr);
+            JSONObject jsonObject = new JSONObject(jsonStr);
             String filePath = (String) jsonObject.get("filePath");
             long size = jsonObject.getLong("size");
             int type = jsonObject.getInt("fileType");
@@ -205,11 +205,11 @@ public class FileInfo implements Serializable{
         return fileInfo;
     }
 
-    public static String toJsonArrayStr(List<FileInfo> fileInfoList){
+    public static String toJsonArrayStr(List<FileInfo> fileInfoList) {
         JSONArray jsonArray = new JSONArray();
-        if(fileInfoList != null){
-            for(FileInfo fileInfo : fileInfoList ){
-                if(fileInfo != null){
+        if (fileInfoList != null) {
+            for (FileInfo fileInfo : fileInfoList) {
+                if (fileInfo != null) {
                     try {
                         jsonArray.put(new JSONObject(toJsonStr(fileInfo)));
                     } catch (JSONException e) {
@@ -230,12 +230,12 @@ public class FileInfo implements Serializable{
                 '}';
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Hello world");
 
         List<FileInfo> fileInfos = new ArrayList<FileInfo>();
         FileInfo fileInfo = new FileInfo();
-        for(int i=0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             fileInfo = new FileInfo();
             fileInfo.setFilePath("/sdcard/test" + i + ".apk");
             fileInfo.setFileType(TYPE_APK);
