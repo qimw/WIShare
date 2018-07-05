@@ -1,5 +1,7 @@
 package com.unique.eightzeroeight.wishare.Activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,12 +20,14 @@ import com.unique.eightzeroeight.wishare.Fragments.LANTransferFragment;
 import com.unique.eightzeroeight.wishare.Fragments.ReceivedFileFragment;
 import com.unique.eightzeroeight.wishare.Fragments.WebTransferFragment;
 import com.unique.eightzeroeight.wishare.R;
+import com.unique.eightzeroeight.wishare.Utils.FileUtils;
 import com.unique.eightzeroeight.wishare.network.base.BaseUserData;
 import com.unique.eightzeroeight.wishare.network.base.DeviceData;
 import com.unique.eightzeroeight.wishare.network.base.RequestSearchData;
 import com.unique.eightzeroeight.wishare.network.client.ClientConfig;
 import com.unique.eightzeroeight.wishare.network.client.SearchClient;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
