@@ -1,6 +1,7 @@
 package com.unique.eightzeroeight.wishare.Fragments;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.unique.eightzeroeight.wishare.Activities.FileChooseActivity;
 import com.unique.eightzeroeight.wishare.Activities.MainActivity;
 import com.unique.eightzeroeight.wishare.Activities.ReceiveActivity;
+
 import com.unique.eightzeroeight.wishare.Adapters.OnlineUserAdapter;
 import com.unique.eightzeroeight.wishare.R;
 import com.unique.eightzeroeight.wishare.network.base.DeviceData;
@@ -46,6 +48,7 @@ public class LANTransferFragment extends Fragment {
         list = ((MainActivity) getActivity()).getList();
         Log.d("LANTransferFragment", "onCreateView: size of the list: " + list.size());
         adapter = new OnlineUserAdapter(list);
+
         adapter.setItemClickListener(new OnlineUserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -77,6 +80,10 @@ public class LANTransferFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
+    public void requestNotifyData() {
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 
     public List<RequestSearchData> getRequests() {

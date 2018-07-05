@@ -13,6 +13,8 @@ import com.unique.eightzeroeight.wishare.R;
 import com.unique.eightzeroeight.wishare.network.base.DeviceData;
 
 import java.util.List;
+import java.util.Set;
+
 
 public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Holder> {
 
@@ -20,12 +22,14 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
     private static final String TAG = "OnlineUserAdapter";
     private OnItemClickListener mItemClickListener;
 
+
     public OnlineUserAdapter(List<DeviceData> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
+
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +40,6 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
                 }
             }
         });
-        return new Holder(view);
     }
 
     @Override
@@ -44,7 +47,6 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
         holder.fileName.setText(list.get(position).getPkgName());
         holder.userName.setText(list.get(position).getIp());
         holder.itemView.setTag(position);
-        Log.d(TAG, "onBindViewHolder: " + list.size());
     }
 
     @Override
@@ -73,4 +75,5 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
+
 }
