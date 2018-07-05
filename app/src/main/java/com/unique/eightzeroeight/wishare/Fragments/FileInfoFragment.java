@@ -14,9 +14,9 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.unique.eightzeroeight.wishare.Activities.AppContext;
+import com.unique.eightzeroeight.wishare.Activities.FileChooseActivity;
 import com.unique.eightzeroeight.wishare.Adapters.FileInfoAdapter;
 import com.unique.eightzeroeight.wishare.Entities.FileInfo;
-import com.unique.eightzeroeight.wishare.FragmentChangeListener;
 import com.unique.eightzeroeight.wishare.R;
 import com.unique.eightzeroeight.wishare.Utils.AnimationUtils;
 import com.unique.eightzeroeight.wishare.Utils.FileUtils;
@@ -39,7 +39,7 @@ public class FileInfoFragment extends Fragment {
     private FileInfoAdapter mFileInfoAdapter;
 
     @SuppressLint("ValidFragment")
-    public FileInfoFragment(){
+    public FileInfoFragment() {
         super();
     }
 
@@ -66,13 +66,13 @@ public class FileInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         ButterKnife.bind(this, rootView);
 
-        if(mType == FileInfo.TYPE_APK){ //应用
+        if (mType == FileInfo.TYPE_APK) { //应用
             gv.setNumColumns(4);
-        }else if(mType == FileInfo.TYPE_JPG){ //图片
+        } else if (mType == FileInfo.TYPE_JPG) { //图片
             gv.setNumColumns(3);
-        }else if(mType == FileInfo.TYPE_MP3){ //音乐
+        } else if (mType == FileInfo.TYPE_MP3) { //音乐
             gv.setNumColumns(1);
-        }else if(mType == FileInfo.TYPE_MP4){ //视频
+        } else if (mType == FileInfo.TYPE_MP4) { //视频
             gv.setNumColumns(1);
         }
 
@@ -83,9 +83,9 @@ public class FileInfoFragment extends Fragment {
     }
 
     private void init() {
-        if(mType == FileInfo.TYPE_APK){
+        if (mType == FileInfo.TYPE_APK) {
             new GetFileInfoListTask(getContext(), FileInfo.TYPE_APK).executeOnExecutor(AppContext.MAIN_EXECUTOR);
-        }else if(mType == FileInfo.TYPE_JPG){
+        } else if (mType == FileInfo.TYPE_JPG) {
             new GetFileInfoListTask(getContext(), FileInfo.TYPE_JPG).executeOnExecutor(AppContext.MAIN_EXECUTOR);
         } else if (mType == FileInfo.TYPE_MP3) {
             new GetFileInfoListTask(getContext(), FileInfo.TYPE_MP3).executeOnExecutor(AppContext.MAIN_EXECUTOR);
@@ -109,9 +109,11 @@ public class FileInfoFragment extends Fragment {
 
                     startView = view.findViewById(R.id.iv_shortcut);
                     Fragment parentFragment = getParentFragment();
-                    if(parentFragment != null && (parentFragment instanceof FileChooseFragment)){
+                    if (parentFragment != null && (parentFragment instanceof FileChooseFragment)) {
                         FileChooseFragment fragment = (FileChooseFragment) parentFragment;
                         targetView = fragment.getSelectedView();
+                    } else {
+                        targetView = ((FileChooseActivity)getActivity()).getSelectedView();
                     }
                     Log.i("hello", (parentFragment != null) + "parent fragment");
                     Log.i("hello", (parentFragment instanceof FileChooseFragment) + "parent fragment");
@@ -125,6 +127,7 @@ public class FileInfoFragment extends Fragment {
 
     @Override
     public void onResume() {
+        AppContext.getAppContext().getFileInfoMap().clear();
         updateFileInfoAdapter();
         super.onResume();
     }
@@ -132,8 +135,8 @@ public class FileInfoFragment extends Fragment {
     /**
      * 更新FileInfoAdapter
      */
-    public void updateFileInfoAdapter(){
-        if(mFileInfoAdapter != null){
+    public void updateFileInfoAdapter() {
+        if (mFileInfoAdapter != null) {
             mFileInfoAdapter.notifyDataSetChanged();
         }
     }
@@ -141,9 +144,9 @@ public class FileInfoFragment extends Fragment {
     /**
      * 更新ChoooseActivity选中View
      */
-    private void updateSelectedView(){
+    private void updateSelectedView() {
         Fragment parentFragment = getParentFragment();
-        if(parentFragment != null && (parentFragment instanceof FileChooseFragment)){
+        if (parentFragment != null && (parentFragment instanceof FileChooseFragment)) {
             FileChooseFragment fragment = (FileChooseFragment) parentFragment;
             fragment.getSelectedView();
         }
@@ -162,17 +165,17 @@ public class FileInfoFragment extends Fragment {
     /**
      * 显示进度
      */
-    public void showProgressBar(){
-        if(pb != null) {
-         pb.setVisibility(View.VISIBLE);
+    public void showProgressBar() {
+        if (pb != null) {
+            pb.setVisibility(View.VISIBLE);
         }
     }
 
     /**
      * 隐藏进度
      */
-    public void hideProgressBar(){
-        if(pb != null && pb.isShown()) {
+    public void hideProgressBar() {
+        if (pb != null && pb.isShown()) {
             pb.setVisibility(View.GONE);
         }
     }
@@ -181,7 +184,7 @@ public class FileInfoFragment extends Fragment {
     /**
      * 获取ApkInfo列表任务
      */
-    class GetFileInfoListTask extends AsyncTask<String, Integer, List<FileInfo>>{
+    class GetFileInfoListTask extends AsyncTask<String, Integer, List<FileInfo>> {
         Context sContext = null;
         int sType = FileInfo.TYPE_APK;
         List<FileInfo> sFileInfoList = null;
@@ -200,17 +203,17 @@ public class FileInfoFragment extends Fragment {
         @Override
         protected List doInBackground(String... params) {
             //FileUtils.getSpecificTypeFiles 只获取FileInfo的属性 filePath与size
-            if(sType == FileInfo.TYPE_APK){
-                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{ FileInfo.EXTEND_APK});
+            if (sType == FileInfo.TYPE_APK) {
+                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{FileInfo.EXTEND_APK});
                 sFileInfoList = FileUtils.getDetailFileInfos(sContext, sFileInfoList, FileInfo.TYPE_APK);
-            }else if(sType == FileInfo.TYPE_JPG){
-                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{ FileInfo.EXTEND_JPG, FileInfo.EXTEND_JPEG});
+            } else if (sType == FileInfo.TYPE_JPG) {
+                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{FileInfo.EXTEND_JPG, FileInfo.EXTEND_JPEG});
                 sFileInfoList = FileUtils.getDetailFileInfos(sContext, sFileInfoList, FileInfo.TYPE_JPG);
-            }else if(sType == FileInfo.TYPE_MP3){
-                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{ FileInfo.EXTEND_MP3});
+            } else if (sType == FileInfo.TYPE_MP3) {
+                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{FileInfo.EXTEND_MP3});
                 sFileInfoList = FileUtils.getDetailFileInfos(sContext, sFileInfoList, FileInfo.TYPE_MP3);
-            }else if(sType == FileInfo.TYPE_MP4){
-                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{ FileInfo.EXTEND_MP4});
+            } else if (sType == FileInfo.TYPE_MP4) {
+                sFileInfoList = FileUtils.getSpecificTypeFiles(sContext, new String[]{FileInfo.EXTEND_MP4});
                 sFileInfoList = FileUtils.getDetailFileInfos(sContext, sFileInfoList, FileInfo.TYPE_MP4);
             }
 
@@ -223,21 +226,21 @@ public class FileInfoFragment extends Fragment {
         @Override
         protected void onPostExecute(List<FileInfo> list) {
             hideProgressBar();
-            if(sFileInfoList != null && sFileInfoList.size() > 0){
-                if(mType == FileInfo.TYPE_APK){ //应用
+            if (sFileInfoList != null && sFileInfoList.size() > 0) {
+                if (mType == FileInfo.TYPE_APK) { //应用
                     mFileInfoAdapter = new FileInfoAdapter(sContext, sFileInfoList, FileInfo.TYPE_APK);
                     gv.setAdapter(mFileInfoAdapter);
-                }else if(mType == FileInfo.TYPE_JPG){ //图片
+                } else if (mType == FileInfo.TYPE_JPG) { //图片
                     mFileInfoAdapter = new FileInfoAdapter(sContext, sFileInfoList, FileInfo.TYPE_JPG);
                     gv.setAdapter(mFileInfoAdapter);
-                }else if(mType == FileInfo.TYPE_MP3){ //音乐
+                } else if (mType == FileInfo.TYPE_MP3) { //音乐
                     mFileInfoAdapter = new FileInfoAdapter(sContext, sFileInfoList, FileInfo.TYPE_MP3);
                     gv.setAdapter(mFileInfoAdapter);
-                }else if(mType == FileInfo.TYPE_MP4){ //视频
+                } else if (mType == FileInfo.TYPE_MP4) { //视频
                     mFileInfoAdapter = new FileInfoAdapter(sContext, sFileInfoList, FileInfo.TYPE_MP4);
                     gv.setAdapter(mFileInfoAdapter);
                 }
-            }else{
+            } else {
                 ToastUtils.show(sContext, sContext.getResources().getString(R.string.tip_has_no_apk_info));
             }
         }

@@ -32,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Activities.FileChooseActivity" />
+        <activity android:name=".Activities.SendActivity" />
+        <activity android:name=".Activities.ReceiveActivity"></activity>
     </application>
 
 </manifest>
