@@ -124,6 +124,12 @@ public class FileChooseFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //AppContext.getAppContext().getFileInfoMap().clear();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

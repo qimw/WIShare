@@ -127,7 +127,7 @@ public class FileInfoFragment extends Fragment {
 
     @Override
     public void onResume() {
-        AppContext.getAppContext().getFileInfoMap().clear();
+
         updateFileInfoAdapter();
         super.onResume();
     }
