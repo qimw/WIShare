@@ -75,7 +75,7 @@ public class ReceivedFileFragment extends Fragment {
         } else {
             Log.i("ReceivedFileFragment", "hello");
             File[] files = file.listFiles();
-            if (files.length != 0) {
+            if (files!=null&&files.length != 0) {
                 noFile.setVisibility(View.GONE);
                 ArrayList<FileInfo> list = new ArrayList<>();
                 for (File f : files) {

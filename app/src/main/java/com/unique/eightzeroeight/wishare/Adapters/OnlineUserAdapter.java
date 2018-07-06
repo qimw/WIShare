@@ -40,6 +40,7 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.Ho
                 }
             }
         });
+        return new Holder(view);
     }
 
     @Override

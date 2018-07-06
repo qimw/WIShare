@@ -78,7 +78,7 @@ public class LANTransferFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);}
 
 
     public void requestNotifyData() {
@@ -90,9 +90,6 @@ public class LANTransferFragment extends Fragment {
         return requestList;
     }
 
-    public void requestNotifyData() {
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
-    }
+
 
 }
