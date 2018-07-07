@@ -19,10 +19,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by mayubao on 2016/11/12.
- * Contact me 345269374@qq.com
- */
 public class ApkUtils {
 
     /**

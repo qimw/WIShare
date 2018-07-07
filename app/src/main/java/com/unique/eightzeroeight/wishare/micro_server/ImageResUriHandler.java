@@ -22,8 +22,6 @@ import java.net.URLDecoder;
  * the iamge resource uri handler
  * 1.match the uri like: http://hostname:port/image/xxxx.xx
  *
- * Created by mayubao on 2016/12/15.
- * Contact me 345269374@qq.com
  */
 public class ImageResUriHandler implements ResUriHandler {
 

@@ -10,8 +10,6 @@ import java.io.PrintStream;
 /**
  * the index res uri handler
  *
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public class IndexResUriHandler implements ResUriHandler {
 

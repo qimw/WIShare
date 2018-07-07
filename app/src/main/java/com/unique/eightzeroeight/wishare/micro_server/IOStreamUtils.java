@@ -7,8 +7,6 @@ import java.io.InputStream;
 /**
  * IO Stream Utils
  *
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public class IOStreamUtils {
 

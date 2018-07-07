@@ -9,10 +9,6 @@ import android.net.wifi.WifiManager;
 
 import java.util.List;
 
-/**
- * Created by mayubao on 2016/11/2.
- * Contact me 345269374@qq.com
- */
 public class WifiMgr {
 
     /**

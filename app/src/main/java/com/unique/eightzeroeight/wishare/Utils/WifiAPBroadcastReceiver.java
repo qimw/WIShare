@@ -10,8 +10,6 @@ import android.util.Log;
  * Wifi AP BroadReciver
  * wifi 热点 广播
  *
- * Created by mayubao on 2016/11/4.
- * Contact me 345269374@qq.com
  */
 public abstract class WifiAPBroadcastReceiver extends BroadcastReceiver {
 

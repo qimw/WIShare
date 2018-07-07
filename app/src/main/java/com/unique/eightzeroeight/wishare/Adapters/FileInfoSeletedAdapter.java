@@ -25,8 +25,6 @@ import java.util.Map;
 /**
  * 文件发送列表 Adapter
  *
- * Created by mayubao on 2016/11/28.
- * Contact me 345269374@qq.com
  */
 public class FileInfoSeletedAdapter extends BaseAdapter {
 

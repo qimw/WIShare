@@ -15,8 +15,6 @@ import java.util.concurrent.Executors;
 /**
  * The micro server in Android
  *
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public class AndroidMicroServer {
 

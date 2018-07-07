@@ -2,10 +2,6 @@ package com.unique.eightzeroeight.wishare.Utils;
 
 import java.io.IOException;
 
-/**
- * Created by mayubao on 2016/12/1.
- * Contact me 345269374@qq.com
- */
 public class NetUtils {
 
     /**

@@ -15,8 +15,6 @@ import java.util.List;
 /**
  * ApkInfo Adapter
  * <p>
- * Created by mayubao on 2016/11/24.
- * Contact me 345269374@qq.com
  */
 public class FileInfoAdapter extends CommonAdapter<FileInfo> {
 

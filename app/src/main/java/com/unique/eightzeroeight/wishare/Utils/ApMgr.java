@@ -29,8 +29,6 @@ import java.lang.reflect.Method;
  * ...end
  *
  *
- * Created by mayubao on 2016/11/2.
- * Contact me 345269374@qq.com
  */
 public class ApMgr {
     public static String TAG = "ApMgr";

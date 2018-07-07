@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * 常量类
- * Created by mayubao on 2016/11/28.
- * Contact me 345269374@qq.com
  */
 public class Constant {
 

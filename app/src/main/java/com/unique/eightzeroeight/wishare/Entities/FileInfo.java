@@ -13,8 +13,6 @@ import java.util.List;
 /**
  * 文件实体
  * <p>
- * Created by mayubao on 2016/11/7.
- * Contact me 345269374@qq.com
  */
 public class FileInfo implements Serializable {
 

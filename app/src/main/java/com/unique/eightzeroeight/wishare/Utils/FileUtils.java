@@ -32,10 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by mayubao on 2016/11/12.
- * Contact me 345269374@qq.com
- */
 public class FileUtils {
 
     private static final String TAG = FileUtils.class.getSimpleName();

@@ -7,8 +7,6 @@ import android.widget.Toast;
 /**
  * Toast工具类
  *
- * Created by mayubao on 2016/11/3.
- * Contact me 345269374@qq.com
  */
 public class ToastUtils {
 

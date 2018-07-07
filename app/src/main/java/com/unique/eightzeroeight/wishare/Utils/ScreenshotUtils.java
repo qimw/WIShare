@@ -7,8 +7,6 @@ import android.provider.MediaStore;
 /**
  * 缩略图工具类
  *
- * Created by mayubao on 2016/11/14.
- * Contact me 345269374@qq.com
  */
 public class ScreenshotUtils {
 

@@ -10,8 +10,6 @@ import java.util.List;
 /**
  * 共有的Adapter
  * <p>
- * Created by mayubao on 2016/4/18.
- * Contact me 345269374@qq.com
  */
 public abstract class CommonAdapter<T> extends BaseAdapter {
 

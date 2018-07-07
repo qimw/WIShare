@@ -24,8 +24,6 @@ import butterknife.OnClick;
 /**
  * 显示选中的文件列表对话框
  *
- * Created by mayubao on 2016/12/2.
- * Contact me 345269374@qq.com
  */
 public class ShowSelectedFileInfoDialog {
 

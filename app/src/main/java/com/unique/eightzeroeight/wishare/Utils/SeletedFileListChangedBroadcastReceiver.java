@@ -8,8 +8,6 @@ import android.util.Log;
 /**
  * 选中文件列表改变的BroadReciver
  *
- * Created by mayubao on 2016/12/4.
- * Contact me 345269374@qq.com
  */
 public abstract class SeletedFileListChangedBroadcastReceiver extends BroadcastReceiver {
 

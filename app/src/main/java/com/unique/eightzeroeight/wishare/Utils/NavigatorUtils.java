@@ -11,8 +11,6 @@ import java.io.File;
 /**
  * UI导航的工具类
  *
- * Created by mayubao on 2016/11/25.
- * Contact me 345269374@qq.com
  */
 public class NavigatorUtils {
 

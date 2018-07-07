@@ -8,8 +8,6 @@ import android.util.Log;
  * you can specify DEBUG in the development environment and set DEBUG = true;
  * if you hope your SLog print nothing, you can set the variable DEBUG to false.
  *
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public class SLog {
 

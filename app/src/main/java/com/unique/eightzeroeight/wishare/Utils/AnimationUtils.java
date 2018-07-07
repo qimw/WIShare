@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 /**
  * 动画的工具类
  *
- * Created by mayubao on 2016/4/21.
- * Contact me 345269374@qq.com
  */
 public class AnimationUtils {
 

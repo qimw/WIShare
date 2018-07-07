@@ -6,8 +6,6 @@ import java.util.HashMap;
 /**
  * the request object include < uri,header and socket (which get from serversocket.accept() ) >
  *
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public class Request {
 

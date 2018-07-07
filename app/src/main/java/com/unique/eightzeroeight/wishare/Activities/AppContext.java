@@ -13,8 +13,6 @@ import java.util.concurrent.Executors;
 /**
  * 全局的Application Context
  *
- * Created by mayubao on 2016/11/25.
- * Contact me 345269374@qq.com
  */
 public class AppContext extends Application {
 

@@ -1,8 +1,6 @@
 package com.unique.eightzeroeight.wishare.micro_server;
 
 /**
- * Created by mayubao on 2016/12/14.
- * Contact me 345269374@qq.com
  */
 public interface ResUriHandler {
 
